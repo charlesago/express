@@ -1,44 +1,52 @@
 const express = require("express")
 const app = express()
-const pizzaRoutes = require('./routes/pizzas')
+const session = require("express-session");
+const port = 3001
+
+const mongodbSession = require("connect-mongodb-session")(session);
+const mongoose = require('mongoose')
+
+
+const userRoutes = require('./routes/session')
 const burgerRoutes = require('./routes/burger')
 
-const port = 3000
-const mongoose =require('mongoose')
-
-app.use(express.json())
-
-app.use('/api/pizzas', pizzaRoutes)
-app.use('/api/burgers', burgerRoutes)
-
-
-mongoose
-    .connect('mongodb://localhost:27017/foodtruck')
+const mongodbUri = "mongodb://localhost:27017/foodtruck";
+mongoose.connect(mongodbUri, {useNewUrlParser: true})
     .then(()=>{
-        console.log('on est bien connectés')
+        console.log('connecté')
     })
     .catch((err)=>console.log(err))
 
-
-
-
-
-
-
-
-
-app.get('/coucou', (req, res)=>{
-    res.send('coucou')
+const store = new mongodbSession({
+    uri: mongodbUri,
+    collection: 'sessions'
 })
 
-app.post('/cava', (req, res)=>{
 
-    console.log('hello regarder ya ca :')
-    console.log(req.body)
-    res.send('good ta envoyer')
-
+const isAuth = (req,res,next)=>{
+    if(req.session.isAuth){
+        next()
+    }else{
+        res.send('connecté? nope')
+    }
+}
+// initialisation, set start session
+app.use(session({
+    secret: 'a key that is a string that will sign cookie',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+}))
+app.get('/', (req,res)=>{
+    req.session.isAuth =  true
+    res.send("session ok")
 })
 
-app.listen(port, ()=>{
-    console.log("coucouu")
+
+app.use(express.json()) // deseraliser
+app.use('/api/burger', isAuth, burgerRoutes)
+app.use('/api/user', userRoutes)
+
+app.listen(port,()=>{
+    console.log("youhou")
 })
