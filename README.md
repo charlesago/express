@@ -62,4 +62,5 @@ Voici un exemple de séquence d'utilisation de l'application :
     Une fois connecté, il peut accéder à la carte des burgers en utilisant la route /.
     Il peut ajouter de nouveaux burgers en utilisant la route /add.
     Il peut également supprimer des burgers existants en utilisant la route /delete/:burgerId.
-    Pour modifier un burger existant, il utilise la route /edit/:burgerId.
+    Pour modifier un burger existant, il utilise la route /modify/:burgerName
+   .
