@@ -55,12 +55,9 @@ Routes
 
 Exemple d'utilisation
 
-Voici un exemple de séquence d'utilisation de l'application :
-
     L'utilisateur s'inscrit en utilisant la route /register avec un nom d'utilisateur, une adresse e-mail et un mot de passe.
     Il se connecte en utilisant la route /login avec le nom d'utilisateur, une adresse e-mail et le mot de passe.
-    Une fois connecté, il peut accéder à la carte des burgers en utilisant la route /.
-    Il peut ajouter de nouveaux burgers en utilisant la route /add.
-    Il peut également supprimer des burgers existants en utilisant la route /delete/:burgerId.
+    Une fois connecté, il peut accéder à la carte des burgers en utilisant la route /
+    Il peut ajouter de nouveaux burgers en utilisant la route /add
+    Il peut également supprimer des burgers existants en utilisant la route /delete/:burgerId
     Pour modifier un burger existant, il utilise la route /modify/:burgerName
-   .
